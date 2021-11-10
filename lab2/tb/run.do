@@ -3,7 +3,7 @@ vlib work
 vlog -f files.f
 onbreak {resume}
 set NoQuitOnFinish 1
-#vsim -voptargs=+acc work.Multiplexer2_1_TB
-vsim -voptargs=+acc work.Multiplexer2_1_TB
+#vsim -voptargs=+acc work.MuxParam_TB
+vsim -voptargs=+acc work.MuxParam_TB
 do wave.do
 run 130ms

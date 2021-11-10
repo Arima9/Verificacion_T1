@@ -1,5 +1,5 @@
-module MuxParam #(parameter type T = logic, parameter SEL = 2, INPUTS = 2**SEL )(Entry, Select, Sal);
-input T Entry[INPUTS];
+module MuxParam #(parameter type T = logic, parameter SEL = 2)(Entry, Select, Sal);
+input T Entry[2**SEL];
 input [SEL-1:0] Select;
 output T Sal;
 
