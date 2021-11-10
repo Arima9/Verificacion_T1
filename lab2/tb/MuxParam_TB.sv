@@ -29,7 +29,7 @@ begin
 	ResultStru_Gold = Bstru[Sel];
 	
 	if (EnumMux != ResultEnum_Gold)
-		$display($time, "Error en el MUX de tipo Enumerado. Valor Obtenido %s, Valor Esperado %s", EnumMux, ResultEnum_Gold);
+		$display($time, "Error en el MUX de tipo Enumerado. Valor Obtenido %s, Valor Esperado %s", EnumMux.name, ResultEnum_Gold.name);
 		$stop(1);
 	if (StruMux != ResultStru_Gold)
 		$display($time, "Error en el MUX de tipo Estructura. Valor Obtenido ", StruMux, ", Valor Esperado", ResultStru_Gold;
@@ -38,6 +38,43 @@ end
 
 endtask
 
+initial begin: TB
+MuxParam_pkg::op_codes_e_t Var0[4];
+MuxParam_pkg::mem_ctl_st_t Var1[4];
+
+Var0[0] = 0;
+Var0[1] = 1;
+Var0[2] = 2;
+Var0[3] = 3;
+
+Var1[0].addr = 8'd153;
+Var1[0].data = 8'd225;
+Var1[0].op = 1'd0;
+
+Var1[1].addr = 8'd222;
+Var1[1].data = 8'd177;
+Var1[1].op = 1'd1;
+
+Var1[2].addr = 8'd45;
+Var1[2].data = 8'd100;
+Var1[2].op = 1'd1;
+
+Var1[3].addr = 8'd133;
+Var1[3].data = 8'd200;
+Var1[3].op = 1'd0;
+
+Var_Enum = Var0;
+Var_Stru = Var1;
+logic [Selector:0] Select; 
+
+for (Select=0; Select < 2**Selector; Select++)begin
+Sel = Select;
+#1;
+check_MuxParam_Enum(.Aenum(Var0), .Bstru(Var1), .Sel(Select), .EnumMux(ResultEn), .StruMux(ResultSt));
+end
+$display("Ha terminado la simulacion exitosamente.");
+$stop(1);
+end
 
 
 endmodule
