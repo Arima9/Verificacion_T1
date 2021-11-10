@@ -3,7 +3,7 @@ parameter DW = 8;
 logic [DW-1 : 0] A_t, B_t, Sal_t;
 logic Sel_t;
 
-Multiplex2_1#(DW)(.Ain(A_t), .Bin(B_t), .Sel(Sel_t), .Sal(Sal_t));
+Multiplex2_1#(DW) DUT(.Ain(A_t), .Bin(B_t), .Sel(Sel_t), .Sal(Sal_t));
 
 task Check_Mux;
 	input i, j, k, Sal_Mux;
@@ -36,5 +36,7 @@ initial begin: TB
 			end
 		end
 	end
+$display("La simulacion ha terminado con exito en : ", $time);
+$stop(1);
 end
 endmodule

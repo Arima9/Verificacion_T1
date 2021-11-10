@@ -3,6 +3,6 @@ input logic [DW-1:0] Ain, Bin;
 output logic [DW-1:0] Sal;
 input logic Sel;
 
-assign Sal = Sel? Bin, Ain;
+assign Sal = Sel? Bin: Ain;
 
 endmodule
