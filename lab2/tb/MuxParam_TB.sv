@@ -28,12 +28,14 @@ begin
 	ResultEnum_Gold = Aenum[Sel];
 	ResultStru_Gold = Bstru[Sel];
 	
-	if (EnumMux != ResultEnum_Gold)
+	if (EnumMux != ResultEnum_Gold)begin
 		$display($time, "Error en el MUX de tipo Enumerado. Valor Obtenido %s, Valor Esperado %s", EnumMux.name, ResultEnum_Gold.name);
 		$stop(1);
-	if (StruMux != ResultStru_Gold)
+	end
+	if (StruMux != ResultStru_Gold)begin
 		$display($time, "Error en el MUX de tipo Estructura. Valor Obtenido ", StruMux, ", Valor Esperado", ResultStru_Gold);
 		$stop(1);
+	end
 end
 
 endtask
@@ -73,6 +75,8 @@ Sel = Select;
 #1;
 check_MuxParam_Enum(.Aenum(Var0), .Bstru(Var1), .Sel(Select), .EnumMux(ResultEn), .StruMux(ResultSt));
 end
+$display("Simulacion ejecutada correctamente. Tiempo:",$time);
+$stop(1);
 end
 
 

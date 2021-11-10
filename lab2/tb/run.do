@@ -6,4 +6,4 @@ set NoQuitOnFinish 1
 #vsim -voptargs=+acc work.MuxParam_TB
 vsim -voptargs=+acc work.MuxParam_TB
 do wave.do
-run 130ms
+run 1ms
