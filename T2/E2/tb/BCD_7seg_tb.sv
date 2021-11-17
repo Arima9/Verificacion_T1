@@ -1,5 +1,6 @@
 `timescale 10ns/1ns
-`define Severity_Fatal
+`define SevDisp(Severity, t0, t1, t2) $Severity(t0, t1, t2);
+
 module BCD_7seg_tb();
 logic [3:0] BCDin;
 logic [6:0] _7segOUT;
@@ -11,15 +12,15 @@ input BCDcode, _7segresult;
 logic [3:0] BCDcode;
 logic [6:0] _7segresult, _7segGUIDE;
 
-`ifdef Severity_Fatal
-if (BCDcode > 9) $fatal(1, _7segresult);
-`elsif Severity_Error
-if (BCDcode > 9) $error(_7segresult);
-`elsif Severity_Warning
-if (BCDcode > 9) $warning(_7segresult);
-`elsif Severity_Info
-if (BCDcode > 9) $info(_7segresult);
-`endif
+if (BCDcode > 4'd9) begin
+    `SevDisp(fatal, 1, "Displaying fatal message, numero mayor a 9.", ); 
+end
+else if (BCDcode == 4'd5) begin
+    `SevDisp(info, "Desplegando informacion,", " el numero BCD es igual a 5.", ); 
+end
+else if (BCDcode == 4'd15) begin
+    `SevDisp(error, "Se ha llegado al tope de la variable.", ,);
+end
 
 if (BCDcode == 4'd0) _7segGUIDE = 7'd64;
 else if (BCDcode == 4'd1) _7segGUIDE = 7'd121;
@@ -35,6 +36,7 @@ else _7segGUIDE = 7'd127;
 
     begin
         if (_7segresult != _7segGUIDE) begin
+            `SevDisp(warning, "Mensaje de warning desplegado", , );
             $display("Hay un error en la simulacion, se obtuvo %d(%b), y se esperaba %d(%b).",_7segresult,_7segresult,_7segGUIDE,_7segGUIDE);
             $stop(1);
         end

@@ -1,29 +1,14 @@
-//Here you should configure the macro that defines which edge activates the clear
-//`define <PosCLEAR or NegCLEAR>
-`define NegCLEAR
-//If neither NegCLEAR or PosCLEAR are defined, the FF will be posedge activated by default
-`ifndef NegCLEAR
-    `ifndef PosCLEAR
-        `define PosCLEAR
-    `endif
-`endif
+`define FFD(clk, clr, en, D_i, Q_o, t_edge = posedge, clrval = 1)\
+always @(posedge clk or t_edge clr)begin\
+    if(clr == clrval) Q_o <= 1'b0;\
+    else if (en) Q_o <= D_i;\
+end
 
-module FFD_posneg#(parameter LEN = 4)(
-    input clk, clr, 
-    input [LEN -1 : 0] datain,
-    output reg [LEN -1 : 0] dataout
+module FFD_posneg(
+    input clock, clear, enable, Data,
+    output reg Data_out
 );
 
-`ifndef PosCLEAR
-always @(posedge clk or negedge clr)begin
-    if (!clr) dataout <= {LEN{1'b0}};
-`else
-always @(posedge clk or posedge clr)begin
-    if (clr) dataout <= {LEN{1'b0}};
-`endif
+`FFD(clock, clear, enable, Data, Data_out, negedge, 0);
 
-    else begin
-        dataout <= datain;  
-    end
-end
-endmodule : FFD_posneg
+endmodule
